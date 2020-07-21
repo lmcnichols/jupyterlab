@@ -33,7 +33,7 @@
     "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
     "docs": "typedoc src",
     "prepublishOnly": "npm run build",
-    "prepare": "npm install && npm run build",
+    "prepare": "npm run build",
     "test": "jest",
     "test:cov": "jest --collect-coverage",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
