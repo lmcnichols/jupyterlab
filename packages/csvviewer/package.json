@@ -1,14 +1,14 @@
 {
-  "name": "@jupyterlab/csvviewer",
-  "version": "3.0.0-alpha.10",
-  "description": "JupyterLab - CSV Widget",
+  "name": "tde-csvviewer",
+  "version": "1.1.0",
+  "description": "JupyterLab - CSV Widget. Modified for use in the Tabular Data Editor Extension",
   "homepage": "https://github.com/jupyterlab/jupyterlab",
   "bugs": {
-    "url": "https://github.com/jupyterlab/jupyterlab/issues"
+    "url": "https://github.com/lomcnich/jupyterlab.git"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jupyterlab/jupyterlab.git"
+    "url": "https://github.com/lomcnich/jupyterlab.git"
   },
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",
@@ -33,6 +33,7 @@
     "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
     "docs": "typedoc src",
     "prepublishOnly": "npm run build",
+    "prepare": "npm install && npm run build",
     "test": "jest",
     "test:cov": "jest --collect-coverage",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
