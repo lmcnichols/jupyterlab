@@ -410,6 +410,11 @@ export class DSVModel extends DataModel implements IDisposable {
       return;
     }
 
+    // If the data is an empty string, return early.
+    if (this._rawData === '') {
+      return;
+    }
+
     // Compute the column count if we don't already have it.
     if (this._columnCount === undefined) {
       // Get number of columns in first row
