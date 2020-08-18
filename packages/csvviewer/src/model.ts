@@ -107,20 +107,6 @@ export class DSVModel extends DataModel implements IDisposable {
   }
 
   /**
-   * The delimiter between entries on the same row.
-   */
-  get delimiter(): string {
-    return this._delimiter;
-  }
-
-  /**
-   * The delimiter between rows.
-   */
-  get rowDelimiter(): string {
-    return this._rowDelimiter;
-  }
-
-  /**
    * The string representation of the data.
    */
   get rawData(): string {
@@ -128,16 +114,6 @@ export class DSVModel extends DataModel implements IDisposable {
   }
   set rawData(value: string) {
     this._rawData = value;
-  }
-
-  /**
-   * The header strings.
-   */
-  get header(): string[] {
-    return this._header;
-  }
-  set header(value: string[]) {
-    this._header = value;
   }
 
   /**
@@ -151,12 +127,27 @@ export class DSVModel extends DataModel implements IDisposable {
   }
 
   /**
-   * #### Notes
-   * The index of the first character in the data string for row r, column c is
-   * _columnOffsets[(r-this._columnOffsetsStartingRow)*numColumns+c]
+   * The header strings.
    */
-  get columnOffsets(): Uint32Array {
-    return this._columnOffsets;
+  get header(): string[] {
+    return this._header;
+  }
+  set header(value: string[]) {
+    this._header = value;
+  }
+
+  /**
+   * The delimiter between entries on the same row.
+   */
+  get delimiter(): string {
+    return this._delimiter;
+  }
+
+  /**
+   * The delimiter between rows.
+   */
+  get rowDelimiter(): string {
+    return this._rowDelimiter;
   }
 
   /**
@@ -357,7 +348,7 @@ export class DSVModel extends DataModel implements IDisposable {
         if (this._parser === 'quotes') {
           console.warn(e);
           this._parser = 'noquotes';
-          this.resetParser();
+          this._resetParser();
           this._computeRowOffsets(endRow);
         } else {
           throw e;
@@ -367,7 +358,7 @@ export class DSVModel extends DataModel implements IDisposable {
     };
 
     // Reset the parser to its initial state.
-    this.resetParser();
+    this._resetParser();
 
     // Parse the first rows to give us the start of the data right away.
     const done = parseChunk(currentRows);
@@ -416,6 +407,11 @@ export class DSVModel extends DataModel implements IDisposable {
     // If we've already parsed up to endRow, or if we've already parsed the
     // entire data set, return early.
     if (this._rowCount! >= endRow || this._doneParsing === true) {
+      return;
+    }
+
+    // If the data is an empty string, return early.
+    if (this._rawData === '') {
       return;
     }
 
@@ -602,7 +598,7 @@ export class DSVModel extends DataModel implements IDisposable {
   /**
    * Reset the parser state.
    */
-  resetParser(): void {
+  private _resetParser(): void {
     this._columnCount = undefined;
 
     // First row offset is *always* 0, so we always have the first row offset.
