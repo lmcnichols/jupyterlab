@@ -412,6 +412,7 @@ export class DSVModel extends DataModel implements IDisposable {
 
     // If the data is an empty string, return early.
     if (this._rawData === '') {
+      this._doneParsing = true;
       return;
     }
 
